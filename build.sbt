@@ -6,6 +6,7 @@ scalaVersion := "2.12.6"
 
 libraryDependencies ++= {
   Seq(
-    "com.squareup.okhttp3" % "okhttp" % "3.10.0"
+    "com.squareup.okhttp3"    %  "okhttp"     % "3.10.0",
+    "org.scala-lang.modules"  %% "scala-xml"  % "1.1.0"
   )
 }
