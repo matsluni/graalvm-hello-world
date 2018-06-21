@@ -1,0 +1,7 @@
+[
+  {
+    "name" : "software.amazon.awssdk.regions.internal.model.Partitions",
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true
+  }
+]
