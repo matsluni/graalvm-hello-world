@@ -1,1 +1,5 @@
 graalvm-hello-assembly-0.1
+.idea/
+project/project/
+project/target/
+target/
