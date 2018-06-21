@@ -3,12 +3,13 @@ package de.matsluni.graalvm
 import java.net.URLEncoder
 
 import com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl
-import de.matsluni.graalvm.Main.baseUrl
 import okhttp3.{ConnectionSpec, OkHttpClient, Request, Response}
 
 import scala.collection.JavaConverters._
 import scala.xml.factory.XMLLoader
 import scala.xml.{Elem, Source, XML}
+import io.circe._, io.circe.generic.auto._
+import io.circe.parser._, io.circe.syntax._
 
 object Main {
 
@@ -16,15 +17,19 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-   val queueActions = new QueueActions(baseUrl)
-    import queueActions._
-    val resp = for {
-      queueUrl <- createQueue("foo")
-      _ <- writeToQueue(queueUrl, "hello world")
-      message <- readFromQueue(queueUrl)
-    } yield message
+    case class Order(orderId: Long, items: List[String], orderPrice: Double)
+    val order = Order(1, List("Pants", "Socks"), 10.0)
 
-    resp.foreach(println)
+
+    val queueActions = new QueueActions(baseUrl)
+     import queueActions._
+     val resp = for {
+       queueUrl <- createQueue("myQueue")
+       _ <- writeToQueue(queueUrl, order.asJson.noSpaces)
+       message <- readFromQueue(queueUrl)
+     } yield message
+
+     resp.foreach(json => println(decode[Order](json)))
   }
 }
 
